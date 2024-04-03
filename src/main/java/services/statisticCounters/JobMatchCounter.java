@@ -14,7 +14,7 @@ public class JobMatchCounter {
     private JobMatchCounter() {
     }
 
-    public static String getJobsStatistic(List<Employee> employees){
+    public static Map<String, Integer> getJobsStatistic(List<Employee> employees){
         employees.forEach(employee -> {
             String[] jobs = employee.getJobs().split(",");
             for(String job: jobs){
@@ -27,6 +27,6 @@ public class JobMatchCounter {
             }
 
         });
-        return jobStatisticMap.toString();
+        return jobStatisticMap;
     }
 }
