@@ -11,17 +11,21 @@ public class Employee {
     private String companyName;
     //Soon will be changed to Date data type
     private String hiringDate;
+    private String jobs;
 
     public Employee() {
     }
 
     //Soon may be added some patterns, in order to initialize our entity, like Builder or Factory
-    public Employee(String name, String surname, Integer salary, String companyName, String hiringDate) {
+
+
+    public Employee(String name, String surname, Integer salary, String companyName, String hiringDate, String jobs) {
         this.name = name;
         this.surname = surname;
         this.salary = salary;
         this.companyName = companyName;
         this.hiringDate = hiringDate;
+        this.jobs = jobs;
     }
 
     public String getName() {
@@ -44,6 +48,10 @@ public class Employee {
         return hiringDate;
     }
 
+    public String getJobs() {
+        return jobs;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -62,5 +70,21 @@ public class Employee {
 
     public void setHiringDate(String hiringDate) {
         this.hiringDate = hiringDate;
+    }
+
+    public void setJobs(String jobs) {
+        this.jobs = jobs;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", salary=" + salary +
+                ", companyName='" + companyName + '\'' +
+                ", hiringDate='" + hiringDate + '\'' +
+                ", jobs='" + jobs + '\'' +
+                '}';
     }
 }
