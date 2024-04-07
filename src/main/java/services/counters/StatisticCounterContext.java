@@ -5,25 +5,31 @@ import services.counters.impl.CompanyStatisticCounter;
 import services.counters.impl.JobStatisticCounter;
 import services.counters.impl.NameStatisticCounter;
 
+/**
+ * Class, that can use the statistic counting algorithms and managing different counting strategies.
+ */
 @Log4j
 public class StatisticCounterContext {
     private StatisticCounter statisticCounter;
 
     private static StatisticCounterContext statisticCounterContext;
 
-    private StatisticCounterContext(){}
+    private StatisticCounterContext() {
+    }
 
     public StatisticCounter getStatisticCounter() {
         return statisticCounter;
     }
 
-    //Method for choosing of count strategy
+    /**
+     * Method for choosing of count strategy
+     */
     public void setStatisticCounter(String counterName) {
-        if(counterName.equals("jobs")){
+        if (counterName.equals("jobs")) {
             statisticCounter = JobStatisticCounter.getInstance();
-        } else if(counterName.equals("name")){
+        } else if (counterName.equals("name")) {
             statisticCounter = NameStatisticCounter.getInstance();
-        } else if(counterName.equals("company")){
+        } else if (counterName.equals("company")) {
             statisticCounter = CompanyStatisticCounter.getInstance();
         } else {
             log.warn("No such counting strategy found!");
@@ -31,8 +37,8 @@ public class StatisticCounterContext {
     }
 
     //Singleton implementation
-    public static StatisticCounterContext getInstance(){
-        if(statisticCounterContext == null){
+    public static StatisticCounterContext getInstance() {
+        if (statisticCounterContext == null) {
             statisticCounterContext = new StatisticCounterContext();
             //Set jobs counter by default
             statisticCounterContext.setStatisticCounter("jobs");

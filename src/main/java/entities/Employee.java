@@ -1,8 +1,7 @@
 package entities;
-/*
-    Entity class which describes Employee.
-    This class is only containing data about employees and companies.
-    Employees are related to company by M:1 relationship.
+/**
+ * Entity class which describes Employee.
+ * * This class is only containing data about employees, their jobs and companies.
  */
 public class Employee {
     private String name;

@@ -1,16 +1,22 @@
 package consoleInterface;
 
-import filereader.IFileReader;
+import entities.Employee;
+import filereader.impl.FileReaderImpl;
 import filewriter.XMLWriter;
-import services.counters.StatisticCounter;
+import filewriter.impl.XMLWriterImpl;
+import processors.JSONProcessor;
 import services.counters.StatisticCounterContext;
-import services.counters.impl.CompanyStatisticCounter;
-import services.counters.impl.JobStatisticCounter;
-import services.counters.impl.NameStatisticCounter;
 import services.parser.EmployeeJsonParser;
+import services.parser.impl.EmployeeJsonParserImpl;
 
+import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
+/**
+ * Class that maintain client interface
+ */
 public class ConsoleInterface extends Thread {
     private final StatisticCounterContext statisticContext;
 
@@ -43,13 +49,28 @@ public class ConsoleInterface extends Thread {
             String request = scanner.nextLine();
             System.out.println(checkInput(request));
             System.out.print("Press any key to continue...");
-            String wait = scanner.nextLine();
+            scanner.nextLine();
         }
     }
 
+    /**
+     * Method that checks input from the console and involving relevant function
+     */
     private String checkInput(String input) {
         if (input.equals("1")) {
             //TODO Implement Reading
+            EmployeeJsonParser jsonParser = EmployeeJsonParserImpl.getInstance();
+            BlockingQueue<String> pathQueue = new LinkedBlockingQueue<>(List.of("generated.json", "large_data.json"));
+            BlockingQueue<List<Employee>> destinationQueue = new LinkedBlockingQueue<>();
+            JSONProcessor jsonProcessor = new JSONProcessor(jsonParser, new FileReaderImpl(), pathQueue, destinationQueue);
+            jsonProcessor.start();
+            try {
+                XMLWriter xmlWriter = XMLWriterImpl.getInstance();
+                var statistic = statisticContext.getStatisticCounter().getEmployeeStatistic(destinationQueue.take());
+                xmlWriter.generateXML(statistic, "new_stat.xml");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             return "Not ready yet!";
         } else if (input.equals("2")) {
             System.out.println(statisticStrategiesOptionMenu);

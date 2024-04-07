@@ -3,11 +3,13 @@ package services.counters.impl;
 import entities.Employee;
 import services.counters.StatisticCounter;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class that collects statistics for company by name
+ */
 public class CompanyStatisticCounter implements StatisticCounter {
     private Map<String, Integer> companyStatisticMap;
 
@@ -21,7 +23,9 @@ public class CompanyStatisticCounter implements StatisticCounter {
         //May be extended...
     }
 
-    //Method which gets statistic by company of employees
+    /**
+     * Method which gets statistic by company name of employees
+     */
     @Override
     public Map<String, Integer> getEmployeeStatistic(List<Employee> employees) {
         employees.forEach(employee -> {
@@ -35,7 +39,9 @@ public class CompanyStatisticCounter implements StatisticCounter {
         return companyStatisticMap;
     }
 
-    //Method which makes map empty
+    /**
+     * Method which makes map empty
+     */
     @Override
     public void cleanMap() {
         companyStatisticMap = new HashMap<>();

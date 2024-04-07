@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * Class that collects statistics based on employee name
+ */
 public class NameStatisticCounter implements StatisticCounter {
     private Map<String, Integer> nameStatisticMap;
 
@@ -22,7 +24,9 @@ public class NameStatisticCounter implements StatisticCounter {
         //May be extended...
     }
 
-    //Method which gets statistic by name of employees
+    /**
+     * Method which gets statistic by name of employees
+     */
     @Override
     public Map<String, Integer> getEmployeeStatistic(List<Employee> employees) {
         employees.forEach(employee -> {
@@ -36,7 +40,9 @@ public class NameStatisticCounter implements StatisticCounter {
         return nameStatisticMap;
     }
 
-    //Method which makes map empty
+    /**
+     * Method which makes map empty
+     */
     @Override
     public void cleanMap() {
         nameStatisticMap = new HashMap<>();

@@ -7,13 +7,16 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
-    Class which writing statistic in xml file
+ * Class which writing statistic in xml file
  */
 public class XMLWriterImpl implements XMLWriter {
     private XMLWriterImpl(){}
 
     private static XMLWriterImpl xmlWriter;
-
+    /**
+     * Method that write already counted statistic values from map to the
+     * * file stored in outputPath value in xml file format
+     */
     @Override
     public void generateXML(Map<String, Integer> statistic, String outputPath) {
         try (FileWriter writer = new FileWriter(outputPath)) {

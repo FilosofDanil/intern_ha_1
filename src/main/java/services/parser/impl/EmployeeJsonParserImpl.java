@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- Class which parse JSON into List of objects
+ * Class which parses JSON into List of objects
  */
 @Log4j
 public class EmployeeJsonParserImpl implements EmployeeJsonParser {
@@ -19,6 +19,9 @@ public class EmployeeJsonParserImpl implements EmployeeJsonParser {
 
     private EmployeeJsonParserImpl(){}
 
+    /**
+     * Method which parses json from input String into a List of objects of class Employee
+     */
     @Override
     public List<Employee> parseJsonFile(String json) {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -28,7 +31,7 @@ public class EmployeeJsonParserImpl implements EmployeeJsonParser {
             }));
         } catch (JsonProcessingException e) {
             log.error("Error occurred, while trying to parse JSON. " +
-                    "Please provide proper input value format! Returned an empty list.", e);
+                    "Please provide proper input value format! Returned an empty list.");
         }
         return parsedList;
     }
