@@ -4,12 +4,11 @@ import entities.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import services.counters.StatisticCounter;
-import services.parser.EmployeeJsonParser;
 
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CompanyStatisticCounterTest {
 

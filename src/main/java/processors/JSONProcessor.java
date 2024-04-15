@@ -2,13 +2,11 @@ package processors;
 
 import entities.Employee;
 import filereader.IFileReader;
-import services.parser.EmployeeJsonParser;
 
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
 public class JSONProcessor extends Thread{
-    private final EmployeeJsonParser jsonParser;
 
     private final IFileReader fileReader;
 
@@ -16,8 +14,7 @@ public class JSONProcessor extends Thread{
 
     private final BlockingQueue<List<Employee>> destinationQueue;
 
-    public JSONProcessor(EmployeeJsonParser jsonParser, IFileReader fileReader, BlockingQueue<String> sourceQueue, BlockingQueue<List<Employee>> destinationQueue) {
-        this.jsonParser = jsonParser;
+    public JSONProcessor(IFileReader fileReader, BlockingQueue<String> sourceQueue, BlockingQueue<List<Employee>> destinationQueue) {
         this.fileReader = fileReader;
         this.sourceQueue = sourceQueue;
         this.destinationQueue = destinationQueue;
@@ -28,7 +25,7 @@ public class JSONProcessor extends Thread{
         while(true){
             try {
                 String path = sourceQueue.take();
-                List<Employee> result = jsonParser.parseJsonFile(fileReader.read(path));
+                List<Employee> result = fileReader.read(path);
                 destinationQueue.put(result);
                 if (sourceQueue.isEmpty()){
                     break;

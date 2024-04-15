@@ -1,15 +1,14 @@
 package consoleInterface;
 
 import entities.Employee;
-import filereader.impl.FileReaderImpl;
 import filewriter.XMLWriter;
 import filewriter.impl.XMLWriterImpl;
 import lombok.extern.log4j.Log4j;
-import processors.JSONProcessor;
+import mappers.StatisticMapper;
+import mappers.impl.StatisticMapperImpl;
 import services.counters.StatisticCounterContext;
+import services.executor.IExecutorService;
 import services.executor.impl.ExecutorServiceImpl;
-import services.parser.EmployeeJsonParser;
-import services.parser.impl.EmployeeJsonParserImpl;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -37,8 +36,7 @@ public class ConsoleInterface extends Thread {
             Choose menu option using following numbers:
             (1) Start reading
             (2) Change statistic strategy
-            (3) Tutorial
-            (4) Shutdown""";
+            (3) Shutdown""";
 
     private static final String statisticStrategiesOptionMenu = """
             Choose statistic counting strategy option using following numbers: 
@@ -88,9 +86,7 @@ public class ConsoleInterface extends Thread {
             return "Congratulations! You have successfully changed counting strategy, " +
                     "now you're ready to read some data and form the statistic," +
                     " performing chosen strategy.";
-        } else if (input.equals("3")) {
-            return getTutorial();
-        } else if (input.equals("4")) {
+        }  else if (input.equals("3")) {
             return shutdown();
         } else {
             return "No such variant present";
@@ -103,20 +99,20 @@ public class ConsoleInterface extends Thread {
     private void launchReading() {
         BlockingQueue<String> pathQueue = new LinkedBlockingQueue<>(getAllJsonFiles());
         BlockingQueue<List<Employee>> destinationQueue = new LinkedBlockingQueue<>();
-        ExecutorServiceImpl executorService = new ExecutorServiceImpl();
-        executorService.execute(pathQueue, destinationQueue, 1);
+        IExecutorService executorService = new ExecutorServiceImpl();
+        executorService.execute(pathQueue, destinationQueue, 4);
         try {
             Map<String, Integer> statistic;
             while (true){
                 List<Employee> loadedData = destinationQueue.take();
-                System.out.println(loadedData.size());
                 statistic = statisticContext.getStatisticCounter().getEmployeeStatistic(loadedData);
-                if (pathQueue.isEmpty() && destinationQueue.isEmpty()){
+                if (pathQueue.isEmpty() && destinationQueue.isEmpty() && executorService.isFinished()){
                     break;
                 }
             }
             XMLWriter xmlWriter = XMLWriterImpl.getInstance();
-            xmlWriter.generateXML(statistic, "stats.xml");
+            StatisticMapper statisticMapper = StatisticMapperImpl.getInstance();
+            xmlWriter.generateXML(statisticMapper.mapToStatistic(statistic), "output/statistic.xml");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -128,7 +124,7 @@ public class ConsoleInterface extends Thread {
     private List<String> getAllJsonFiles(){
         List<String> fileList = new ArrayList<>();
         try {
-            Path projectPath = Paths.get("input");
+            Path projectPath = Paths.get("src/main/resources");
             Files.walk(projectPath)
                     .filter(Files::isRegularFile)
                     .filter(file -> file.toString().endsWith(".json"))
@@ -147,13 +143,5 @@ public class ConsoleInterface extends Thread {
     private String shutdown() {
         this.stop();
         return "Finished the process";
-    }
-
-    /**
-     * Returns tutorial
-     */
-    private String getTutorial() {
-        //TODO Write Tutorial
-        return "Not ready yet!";
     }
 }

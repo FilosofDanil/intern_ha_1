@@ -5,8 +5,6 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import entities.Employee;
 import filereader.IFileReader;
-import services.parser.EmployeeJsonParser;
-import services.parser.impl.EmployeeJsonParserImpl;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +15,6 @@ import java.util.List;
  * Class that reads files, using BufferedReader
  */
 public class FileReaderImpl implements IFileReader {
-    private final EmployeeJsonParser employeeJsonParser = EmployeeJsonParserImpl.getInstance();
 
     /**
      * Method which reads file by its path
