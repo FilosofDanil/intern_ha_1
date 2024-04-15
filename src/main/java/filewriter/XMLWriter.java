@@ -1,7 +1,9 @@
 package filewriter;
 
-import java.util.Map;
+import entities.Statistic;
+
+import java.util.List;
 
 public interface XMLWriter {
-   void generateXML(Map<String, Integer> statistic, String outputPath);
+   void generateXML(List<Statistic> statistic, String outputPath);
 }
