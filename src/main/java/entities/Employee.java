@@ -1,4 +1,7 @@
 package entities;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+
 /**
  * Entity class which describes Employee.
  * * This class is only containing data about employees, their jobs and companies.
@@ -17,7 +20,7 @@ public class Employee {
 
     //Soon may be added some patterns, in order to initialize our entity, like Builder or Factory
 
-
+    @JsonCreator
     public Employee(String name, String surname, Integer salary, String companyName, String hiringDate, String jobs) {
         this.name = name;
         this.surname = surname;
