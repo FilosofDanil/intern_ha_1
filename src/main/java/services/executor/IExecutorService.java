@@ -5,6 +5,8 @@ import entities.Employee;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
-public interface ExecutorService {
+public interface IExecutorService {
     void execute(BlockingQueue<String> pathQueue, BlockingQueue<List<Employee>> destinationQueue, int threads);
+
+    boolean isFinished();
 }
