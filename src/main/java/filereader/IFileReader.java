@@ -1,5 +1,9 @@
 package filereader;
 
+import entities.Employee;
+
+import java.util.List;
+
 public interface IFileReader {
-    String read(String fileName);
+    List<Employee> read(String fileName);
 }
