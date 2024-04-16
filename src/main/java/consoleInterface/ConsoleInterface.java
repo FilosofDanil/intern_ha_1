@@ -28,7 +28,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class ConsoleInterface extends Thread {
     private final StatisticCounterContext statisticContext;
 
+    //default value jobs
     private String parameter = "jobs";
+    //default value 1
+    private int threads = 1;
 
     public ConsoleInterface(StatisticCounterContext statisticContext) {
         this.statisticContext = statisticContext;
@@ -38,7 +41,8 @@ public class ConsoleInterface extends Thread {
             Choose menu option using following numbers:
             (1) Start reading
             (2) Change statistic strategy
-            (3) Shutdown""";
+            (3) Change threads count
+            (4) Shutdown""";
 
     private static final String statisticStrategiesOptionMenu = """
             Choose statistic counting strategy option using following numbers: 
@@ -92,6 +96,22 @@ public class ConsoleInterface extends Thread {
                     "now you're ready to read some data and form the statistic," +
                     " performing chosen strategy.";
         } else if (input.equals("3")) {
+            System.out.println("Print thread number from 1 to 8");
+            String request = scanner.nextLine();
+            try {
+                int val = Integer.parseInt(request);
+                if (val <= 8 && val > 0) {
+                    threads = val;
+                } else {
+                    return "Invalid value";
+                }
+            } catch (NumberFormatException e) {
+                log.error("Tried to parse invalid data");
+                return "Invalid value";
+            }
+
+            return "Congratulations! You have successfully changed number of enforced threads.";
+        } else if (input.equals("4")) {
             return shutdown();
         } else {
             return "No such variant present";
@@ -105,7 +125,7 @@ public class ConsoleInterface extends Thread {
         BlockingQueue<String> pathQueue = new LinkedBlockingQueue<>(getAllJsonFiles());
         BlockingQueue<List<Employee>> destinationQueue = new LinkedBlockingQueue<>();
         IExecutorService executorService = new ExecutorServiceImpl();
-        executorService.execute(pathQueue, destinationQueue, 4);
+        executorService.execute(pathQueue, destinationQueue, threads);
         try {
             Map<String, Integer> statistic;
             while (true) {
@@ -142,7 +162,6 @@ public class ConsoleInterface extends Thread {
         return fileList;
 
     }
-
 
     /**
      * Method which shutdown current process
