@@ -28,6 +28,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class ConsoleInterface extends Thread {
     private final StatisticCounterContext statisticContext;
 
+    private String parameter = "jobs";
+
     public ConsoleInterface(StatisticCounterContext statisticContext) {
         this.statisticContext = statisticContext;
     }
@@ -76,17 +78,20 @@ public class ConsoleInterface extends Thread {
             String request = scanner.nextLine();
             if (request.equals("1")) {
                 statisticContext.setStatisticCounter("jobs");
+                parameter = "jobs";
             } else if (request.equals("2")) {
                 statisticContext.setStatisticCounter("name");
+                parameter = "name";
             } else if (request.equals("3")) {
                 statisticContext.setStatisticCounter("company");
+                parameter = "company";
             } else {
                 return "No such variant present";
             }
             return "Congratulations! You have successfully changed counting strategy, " +
                     "now you're ready to read some data and form the statistic," +
                     " performing chosen strategy.";
-        }  else if (input.equals("3")) {
+        } else if (input.equals("3")) {
             return shutdown();
         } else {
             return "No such variant present";
@@ -103,16 +108,18 @@ public class ConsoleInterface extends Thread {
         executorService.execute(pathQueue, destinationQueue, 4);
         try {
             Map<String, Integer> statistic;
-            while (true){
+            while (true) {
                 List<Employee> loadedData = destinationQueue.take();
+                statisticContext.getStatisticCounter().cleanMap();
                 statistic = statisticContext.getStatisticCounter().getEmployeeStatistic(loadedData);
-                if (pathQueue.isEmpty() && destinationQueue.isEmpty() && executorService.isFinished()){
+                if (executorService.isFinished()) {
                     break;
                 }
             }
             XMLWriter xmlWriter = XMLWriterImpl.getInstance();
             StatisticMapper statisticMapper = StatisticMapperImpl.getInstance();
-            xmlWriter.generateXML(statisticMapper.mapToStatistic(statistic), "output/statistic.xml");
+            xmlWriter.generateXML(statisticMapper.mapToStatistic(statistic),
+                    "src/main/resources/statistic_by_" + parameter + ".xml");
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -121,7 +128,7 @@ public class ConsoleInterface extends Thread {
     /**
      * Method that gets all json files available from input folder
      */
-    private List<String> getAllJsonFiles(){
+    private List<String> getAllJsonFiles() {
         List<String> fileList = new ArrayList<>();
         try {
             Path projectPath = Paths.get("src/main/resources");
