@@ -2,10 +2,13 @@ package processors;
 
 import entities.Employee;
 import filereader.IFileReader;
+import lombok.extern.log4j.Log4j;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
+@Log4j
 public class JSONProcessor extends Thread{
 
     private final IFileReader fileReader;
@@ -30,8 +33,8 @@ public class JSONProcessor extends Thread{
                 if (sourceQueue.isEmpty()){
                     break;
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            } catch (InterruptedException | IOException e) {
+               log.error(e.getMessage());
             }
         }
     }

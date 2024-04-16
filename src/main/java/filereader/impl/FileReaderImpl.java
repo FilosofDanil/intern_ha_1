@@ -20,7 +20,7 @@ public class FileReaderImpl implements IFileReader {
      * Method which reads file by its path
      */
     @Override
-    public List<Employee> read(String fileName) {
+    public List<Employee> read(String fileName) throws IOException {
         List<Employee> employees = new ArrayList<>();
         JsonFactory factory = new JsonFactory();
         File file = new File(fileName);
@@ -52,21 +52,8 @@ public class FileReaderImpl implements IFileReader {
                     }
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return employees;
-//        StringBuilder stringBuilder = new StringBuilder();
-//        try (BufferedReader br = java.nio.file.Files.newBufferedReader(Paths.get(fileName))) {
-//            String line = br.readLine();
-//            while (line != null) {
-//                stringBuilder.append(line);
-//                line = br.readLine();
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        return employeeJsonParser.parseJsonFile(stringBuilder.toString());
     }
 
 
