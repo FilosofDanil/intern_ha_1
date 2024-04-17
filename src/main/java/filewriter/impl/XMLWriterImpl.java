@@ -10,7 +10,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Class which writing statistic in xml file

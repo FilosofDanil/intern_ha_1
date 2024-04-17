@@ -4,7 +4,6 @@ import entities.Employee;
 import filereader.IFileReader;
 import lombok.extern.log4j.Log4j;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
@@ -33,7 +32,7 @@ public class JSONProcessor extends Thread{
                 if (sourceQueue.isEmpty()){
                     break;
                 }
-            } catch (InterruptedException | IOException e) {
+            } catch (Exception e) {
                log.error(e.getMessage());
             }
         }

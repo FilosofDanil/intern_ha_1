@@ -32,7 +32,7 @@ public class StatisticCounterContext {
         } else if (counterName.equals("company")) {
             statisticCounter = CompanyStatisticCounter.getInstance();
         } else {
-            log.warn("No such counting strategy found!");
+            log.warn("No such counting strategy found! Program will read statistic by jobs as default");
         }
     }
 
