@@ -24,6 +24,10 @@ public class StatisticCounterContext {
 
     /**
      * Method for choosing of count strategy
+     * Supported counter names include "jobs", "name", and "companyName".
+     * If an unsupported name is provided, a default statistic counter is used.
+     *
+     * @param counterName the name of the statistic counter strategy
      */
     public void setStatisticCounter(String counterName) {
         switch (counterName) {
@@ -35,7 +39,10 @@ public class StatisticCounterContext {
     }
 
     /**
-     * Returns default StaticCounter interface implementation
+     * Returns a default statistic counter implementation.
+     * This implementation counts occurrences of arbitrary field values.
+     *
+     * @return the default statistic counter implementation
      */
     private StatisticCounter getDefaultStatisticCounter() {
         return new StatisticCounter() {

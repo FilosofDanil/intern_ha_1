@@ -6,10 +6,11 @@ import lombok.extern.log4j.Log4j;
 import java.util.concurrent.BlockingQueue;
 
 /**
- * Class which runs reading file as independent threads.
+ * Сlass representing a thread for processing JSON files concurrently.
+ * This class reads JSON files using an {@link IFileReader} implementation and operates on a blocking queue of file paths.
  */
 @Log4j
-public class JSONProcessor extends Thread{
+public class JSONProcessor extends Thread {
 
     private final IFileReader fileReader;
 
@@ -25,15 +26,15 @@ public class JSONProcessor extends Thread{
 
     @Override
     public void run() {
-        while(true){
+        while (true) {
             try {
                 String path = sourceQueue.take();
                 fileReader.read(path, fieldName);
-                if (sourceQueue.isEmpty()){
+                if (sourceQueue.isEmpty()) {
                     break;
                 }
             } catch (Exception e) {
-               log.error(e.getMessage());
+                log.error(e.getMessage());
             }
         }
     }
