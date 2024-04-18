@@ -1,5 +1,8 @@
 package exceptions;
 
+/**
+ * Exception which thrown, when user fails validation
+ */
 public class ValidationException extends RuntimeException {
     public ValidationException() {
         super();

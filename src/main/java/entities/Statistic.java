@@ -2,6 +2,9 @@ package entities;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * Class which describe statistic. Useful for writing it in .xml file format.
+ */
 @XmlRootElement
 public class Statistic {
     private String value;

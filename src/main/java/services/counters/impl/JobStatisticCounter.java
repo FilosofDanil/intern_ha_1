@@ -1,9 +1,9 @@
 package services.counters.impl;
 
-import entities.Employee;
 import services.counters.StatisticCounter;
 
-import java.util.*;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Class that collects hiring statistics

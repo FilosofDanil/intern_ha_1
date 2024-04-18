@@ -2,6 +2,7 @@ package filewriter.impl;
 
 import entities.Statistic;
 import filewriter.XMLWriter;
+import lombok.extern.log4j.Log4j;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -14,6 +15,7 @@ import java.util.List;
 /**
  * Class which writing statistic in xml file
  */
+@Log4j
 public class XMLWriterImpl implements XMLWriter {
     private XMLWriterImpl(){}
 
@@ -23,11 +25,12 @@ public class XMLWriterImpl implements XMLWriter {
      */
     @Override
     public void generateXML(List<Statistic> statistics, String outputPath) {
+        log.info("Started writing output file");
         try (FileWriter writer = new FileWriter(outputPath)) {
             JAXBContext jaxbContext = JAXBContext.newInstance(Statistic.class);
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true); // Exclude XML declaration
+            marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
             writer.write("<statistics>\n");
             for (Statistic statistic : statistics) {
                 StringWriter stringWriter = new StringWriter();
@@ -37,10 +40,15 @@ public class XMLWriterImpl implements XMLWriter {
                 writer.write(indentedXml);
             }
             writer.write("</statistics>");
+            log.info("File has been successfully written");
         } catch (IOException | JAXBException e) {
-            e.printStackTrace();
+            log.error("Error while trying to write file:\n " + e.getMessage());
         }
     }
+
+    /**
+     * Method that adds tabulation, in order to format xml file.
+     */
     private String addTabulationToXml(String xml) {
         StringBuilder indentedXml = new StringBuilder();
         String[] lines = xml.split("\\n");
@@ -50,7 +58,7 @@ public class XMLWriterImpl implements XMLWriter {
         return indentedXml.toString();
     }
 
-
+    //Singleton Implementation
     public static XMLWriterImpl getInstance() {
         if (xmlWriter == null) {
             xmlWriter = new XMLWriterImpl();

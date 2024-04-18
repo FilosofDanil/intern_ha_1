@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class which converts Map into Statistic class.
+ */
 public class StatisticMapperImpl implements StatisticMapper {
 
     private static StatisticMapperImpl statisticMapper;

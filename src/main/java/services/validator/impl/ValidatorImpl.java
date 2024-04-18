@@ -5,10 +5,15 @@ import exceptions.ValidationException;
 import services.validator.Validator;
 
 import java.io.File;
-
+/**
+ * Class, which useful for validation of input parameters
+ */
 public class ValidatorImpl implements Validator {
     private static ValidatorImpl validator;
 
+    /**
+     * Method for validation of input args
+     */
     @Override
     public void validate(String[] args) throws ValidationException {
         if (args.length == 0){

@@ -1,13 +1,10 @@
 package services.counters;
 
-import entities.Employee;
 import services.counters.impl.CompanyStatisticCounter;
 import services.counters.impl.JobStatisticCounter;
 import services.counters.impl.NameStatisticCounter;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -38,6 +35,9 @@ public class StatisticCounterContext {
         }
     }
 
+    /**
+     * Returns default StaticCounter interface implementation
+     */
     private StatisticCounter getDefaultStatisticCounter() {
         return new StatisticCounter() {
             private Map<String, Integer> statisticMap = new TreeMap<>();
