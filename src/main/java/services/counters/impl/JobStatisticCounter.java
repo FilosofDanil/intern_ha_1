@@ -6,6 +6,7 @@ import java.util.*;
 
 /**
  * Class that collects hiring statistics
+ * This class implements the {@link StatisticCounter} interface.
  */
 public class JobStatisticCounter implements StatisticCounter {
     private Map<String, Integer> jobStatisticMap;
@@ -22,7 +23,9 @@ public class JobStatisticCounter implements StatisticCounter {
     }
 
     /**
-     * Method which gets statistic by job of employees
+     * Method which gets statistic by company name of employees
+     *
+     * @return a map containing jobs as keys and the corresponding counts of employees as values
      */
     @Override
     public Map<String, Integer> getEmployeeStatistic() {
@@ -30,7 +33,9 @@ public class JobStatisticCounter implements StatisticCounter {
     }
 
     /**
-     * Method which puts value from field in the map
+     * Method which makes map empty
+     *
+     * @param fieldValue the name of the job associated with an employee
      */
     @Override
     public void putValueInMap(String fieldValue) {
@@ -58,7 +63,7 @@ public class JobStatisticCounter implements StatisticCounter {
      * Method which makes map empty
      */
     @Override
-    public void cleanMap(){
+    public void cleanMap() {
         jobStatisticMap = new HashMap<>();
     }
 }

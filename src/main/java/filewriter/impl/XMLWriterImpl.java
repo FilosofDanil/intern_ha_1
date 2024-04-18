@@ -14,14 +14,20 @@ import java.util.List;
 
 /**
  * Class which writing statistic in xml file
+ * Implementation of the {@link XMLWriter} interface for writing statistics to an XML file.
  */
 @Log4j
 public class XMLWriterImpl implements XMLWriter {
-    private XMLWriterImpl(){}
+    private XMLWriterImpl() {
+    }
 
     private static XMLWriterImpl xmlWriter;
+
     /**
      * Method that writes already counted statistic values from a list of Statistic objects to an XML file.
+     *
+     * @param statistics the list of Statistic objects to write to the XML file
+     * @param outputPath the path of the output XML file
      */
     @Override
     public void generateXML(List<Statistic> statistics, String outputPath) {
@@ -48,6 +54,9 @@ public class XMLWriterImpl implements XMLWriter {
 
     /**
      * Method that adds tabulation, in order to format xml file.
+     *
+     * @param xml the XML content to be formatted
+     * @return the formatted XML content with tabulation
      */
     private String addTabulationToXml(String xml) {
         StringBuilder indentedXml = new StringBuilder();

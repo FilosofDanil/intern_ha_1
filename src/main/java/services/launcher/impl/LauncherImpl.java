@@ -29,10 +29,11 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Boundary class between client and system, which starts running reading of JSON files,
  * contained in path specified and getting statistic by certain field and put it into .xml file
  * in the same directory.
+ * This class serves as an interface between the client and the system.
  */
 @Log4j
 public class LauncherImpl implements Launcher {
-    private int threads = 4;
+    private int threads = 1;
 
     private final StatisticCounterContext statisticContext = StatisticCounterContext.getInstance();
 
@@ -40,6 +41,9 @@ public class LauncherImpl implements Launcher {
 
     /**
      * Method that starts reading files
+     *
+     * @param path      the path to the directory containing JSON files
+     * @param parameter the parameter specifying the field for which statistics are to be collected
      */
     @Override
     public void launchReading(String path, String parameter) {
@@ -74,7 +78,9 @@ public class LauncherImpl implements Launcher {
     }
 
     /**
-     * Method that sets count of threads enforced
+     * Sets the number of threads to be used for processing JSON files.
+     *
+     * @param threads the number of threads to use
      */
     @Override
     public void setThreadCount(String threads) {
@@ -82,7 +88,10 @@ public class LauncherImpl implements Launcher {
     }
 
     /**
-     * Method that gets all json files available from input folder
+     * Retrieves a list of all JSON files available in the specified folder.
+     *
+     * @param path the path to the directory containing JSON files
+     * @return a list of paths to JSON files
      */
     private List<String> getAllJsonFiles(String path) {
         log.info("Launched file reading");
@@ -93,7 +102,7 @@ public class LauncherImpl implements Launcher {
                     .filter(Files::isRegularFile)
                     .filter(file -> file.toString().endsWith(".json"))
                     .forEach(file -> fileList.add(file.toString()));
-            log.info("Successfully read directory. " + fileList.size() +" files detected.");
+            log.info("Successfully read directory. " + fileList.size() + " files detected.");
         } catch (IOException e) {
             log.error(e.getMessage());
         }

@@ -6,6 +6,7 @@ import mappers.StatisticMapper;
 import java.util.*;
 
 /**
+ * Implementation of the {@link StatisticMapper} interface for converting a Map into a Collection of Statistic objects.
  * Class which converts Map into Statistic class.
  */
 public class StatisticMapperImpl implements StatisticMapper {
@@ -17,7 +18,10 @@ public class StatisticMapperImpl implements StatisticMapper {
 
 
     /**
-     * Method which converts map to Collection of Statistic objects and sort it by value
+     * Converts a Map into a Collection of Statistic objects and sorts them by value in descending order.
+     *
+     * @param statisticMap the Map containing key-value pairs to be converted into Statistic objects
+     * @return a List of Statistic objects sorted by value in descending order
      */
     @Override
     public List<Statistic> mapToStatistic(Map<String, Integer> statisticMap) {
