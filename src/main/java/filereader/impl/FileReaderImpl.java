@@ -9,6 +9,7 @@ import filereader.IFileReader;
 import services.counters.StatisticCounter;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 /**
@@ -30,7 +31,9 @@ public class FileReaderImpl implements IFileReader {
         checkField(fieldName);
         JsonFactory factory = new JsonFactory();
         File file = new File(fileName);
-        if (file.length() == 0) {
+        if(!file.exists()){
+            throw new FileNotFoundException("The system cannot find the path");
+        } else if (file.length() == 0) {
             throw new JsonParseException("Empty file specified!");
         }
         try (JsonParser parser = factory.createParser(file)) {

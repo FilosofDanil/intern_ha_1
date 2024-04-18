@@ -3,9 +3,7 @@ package mappers.impl;
 import entities.Statistic;
 import mappers.StatisticMapper;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Class which converts Map into Statistic class.
@@ -17,6 +15,10 @@ public class StatisticMapperImpl implements StatisticMapper {
     private StatisticMapperImpl() {
     }
 
+
+    /**
+     * Method which converts map to Collection of Statistic objects and sort it by value
+     */
     @Override
     public List<Statistic> mapToStatistic(Map<String, Integer> statisticMap) {
         List<Statistic> statistics = new ArrayList<>();
@@ -24,6 +26,7 @@ public class StatisticMapperImpl implements StatisticMapper {
             Statistic statistic = new Statistic(entry.getKey(), entry.getValue());
             statistics.add(statistic);
         }
+        statistics.sort(Comparator.comparingInt(Statistic::getCount).reversed());
         return statistics;
     }
 

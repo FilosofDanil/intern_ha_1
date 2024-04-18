@@ -2,9 +2,7 @@ package services.counters.impl;
 
 import services.counters.StatisticCounter;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Class that collects hiring statistics
@@ -36,7 +34,9 @@ public class JobStatisticCounter implements StatisticCounter {
      */
     @Override
     public void putValueInMap(String fieldValue) {
-        String[] jobs = fieldValue.split(",");
+        List<String> jobs = Arrays.stream(fieldValue.split(","))
+                .map(String::trim)
+                .toList();
         for (String job : jobs) {
             if (!jobStatisticMap.containsKey(job)) {
                 jobStatisticMap.put(job, 1);

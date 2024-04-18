@@ -21,7 +21,7 @@ public class ValidatorImpl implements Validator {
         } else if(args.length < 2){
             throw new ValidationException("Not enough parameters specified. Launching with default settings...");
         } else if(args.length > 3){
-            throw new ValidationException("Too more parameters specified. Launching with default settings...");
+            throw new ValidationException("Redundant parameters specified. Launching with default settings...");
         }
         else {
             File directory = new File(args[0]);

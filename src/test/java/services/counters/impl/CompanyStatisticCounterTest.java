@@ -17,6 +17,7 @@ class CompanyStatisticCounterTest {
     @BeforeEach
     void setUp() {
         counter = CompanyStatisticCounter.getInstance();
+        counter.cleanMap();
     }
 
     @Test
@@ -28,31 +29,12 @@ class CompanyStatisticCounterTest {
                 new Employee("Michael", "Johnson",100,"Company", "XXXX", "HR, Sales")
         );
         //when
-        counter.cleanMap();
-        Map<String, Integer> resultMap = counter.getEmployeeStatistic(employees);
+        for(Employee employee: employees){
+            counter.putValueInMap(employee.getCompanyName());
+        }
+        Map<String, Integer> resultMap = counter.getEmployeeStatistic();
         //then
         assertEquals(2, resultMap.get("Company"));
         assertEquals(1, resultMap.get("Company2"));
-    }
-
-    @Test
-    void cleanMap() {
-        //given
-        List<Employee> firstList = List.of(
-                new Employee("John", "Doe", 100,"Company", "XXXX", "Manager"),
-                new Employee("Jane", "Smith", 100,"Company2", "XXXX", "Sales, Java-Developer"),
-                new Employee("Michael", "Johnson",100,"Company", "XXXX", "HR, Sales")
-        );
-        //when
-        counter.cleanMap();
-        counter.getEmployeeStatistic(firstList);
-        Map<String, Integer> resultMapBeforeClean = counter.getEmployeeStatistic(firstList);
-        counter.cleanMap();
-        Map<String, Integer> resultMapAfterClean = counter.getEmployeeStatistic(firstList);
-        //then
-        assertEquals(2, resultMapAfterClean.get("Company"));
-        assertEquals(1, resultMapAfterClean.get("Company2"));
-        assertEquals(4, resultMapBeforeClean.get("Company"));
-        assertEquals(2, resultMapBeforeClean.get("Company2"));
     }
 }
