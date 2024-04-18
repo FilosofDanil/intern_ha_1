@@ -14,6 +14,8 @@ public class Main {
     public static void main(String[] args) {
         Launcher launcher = LauncherImpl.getInstance();
         Validator validator = ValidatorImpl.getInstance();
+        long start = System.currentTimeMillis();
+
         try {
             validator.validate(args);
             if(args.length==3){
@@ -24,5 +26,8 @@ public class Main {
             log.warn(e.getMessage());
             launcher.launchReading(DefaultSettings.path, DefaultSettings.parameter);
         }
+        long finish = System.currentTimeMillis();
+        long timeElapsed = finish - start;
+        log.info("Estimated time elapsed: " + timeElapsed);
     }
 }
