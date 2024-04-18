@@ -1,19 +1,27 @@
 import entities.DefaultSettings;
+import exceptions.ValidationException;
 import lombok.extern.log4j.Log4j;
 import services.launcher.Launcher;
 import services.launcher.impl.LauncherImpl;
+import services.validator.Validator;
+import services.validator.impl.ValidatorImpl;
 
 /**
-Entry point class Main
+ * Entry point class Main
  */
 @Log4j
 public class Main {
-    public static void main(String[]args){
+    public static void main(String[] args) {
         Launcher launcher = LauncherImpl.getInstance();
-        if(args.length > 0){
+        Validator validator = ValidatorImpl.getInstance();
+        try {
+            validator.validate(args);
+            if(args.length==3){
+                launcher.setThreadCount(args[2]);
+            }
             launcher.launchReading(args[0], args[1]);
-        } else {
-            log.info("Program has started without parameters. Launching with default settings...");
+        } catch (ValidationException e){
+            log.warn(e.getMessage());
             launcher.launchReading(DefaultSettings.path, DefaultSettings.parameter);
         }
     }
