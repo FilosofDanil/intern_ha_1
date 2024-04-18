@@ -2,6 +2,7 @@ package services.counters.impl;
 
 import services.counters.StatisticCounter;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -18,7 +19,7 @@ public class JobStatisticCounter implements StatisticCounter {
 
     //Init map
     {
-        jobStatisticMap = new TreeMap<>();
+        jobStatisticMap = new HashMap<>();
         //May be extended...
     }
 
@@ -58,6 +59,6 @@ public class JobStatisticCounter implements StatisticCounter {
      */
     @Override
     public void cleanMap(){
-        jobStatisticMap = new TreeMap<>();
+        jobStatisticMap = new HashMap<>();
     }
 }

@@ -6,7 +6,6 @@ import services.counters.impl.NameStatisticCounter;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Class, that can use the statistic counting algorithms and managing different counting strategies.
@@ -40,8 +39,7 @@ public class StatisticCounterContext {
      */
     private StatisticCounter getDefaultStatisticCounter() {
         return new StatisticCounter() {
-            private Map<String, Integer> statisticMap = new TreeMap<>();
-
+            private Map<String, Integer> statisticMap = new HashMap<>();
 
             @Override
             public Map<String, Integer> getEmployeeStatistic() {

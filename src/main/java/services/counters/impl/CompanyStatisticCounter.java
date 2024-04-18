@@ -2,6 +2,7 @@ package services.counters.impl;
 
 import services.counters.StatisticCounter;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -17,7 +18,7 @@ public class CompanyStatisticCounter implements StatisticCounter {
 
     //Init map
     {
-        companyStatisticMap = new TreeMap<>();
+        companyStatisticMap = new HashMap<>();
         //May be extended...
     }
 
@@ -44,7 +45,7 @@ public class CompanyStatisticCounter implements StatisticCounter {
      */
     @Override
     public void cleanMap() {
-        companyStatisticMap = new TreeMap<>();
+        companyStatisticMap = new HashMap<>();
     }
 
     //Singleton implementation
