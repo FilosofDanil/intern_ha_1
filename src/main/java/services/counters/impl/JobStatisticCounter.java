@@ -3,10 +3,8 @@ package services.counters.impl;
 import entities.Employee;
 import services.counters.StatisticCounter;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 /**
  * Class that collects hiring statistics
  */
@@ -20,7 +18,7 @@ public class JobStatisticCounter implements StatisticCounter {
 
     //Init map
     {
-        jobStatisticMap = new HashMap<>();
+        jobStatisticMap = new TreeMap<>();
         //May be extended...
     }
 
@@ -28,20 +26,23 @@ public class JobStatisticCounter implements StatisticCounter {
      * Method which gets statistic by job of employees
      */
     @Override
-    public Map<String, Integer> getEmployeeStatistic(List<Employee> employees) {
-        employees.forEach(employee -> {
-            List<String> jobs = Arrays.stream(employee.getJobs().split(","))
-                    .map(String::trim).toList();
-            for (String job : jobs) {
-                if (!jobStatisticMap.containsKey(job)) {
-                    jobStatisticMap.put(job, 1);
-                } else {
-                    jobStatisticMap.put(job, jobStatisticMap.get(job) + 1);
-                }
-            }
-
-        });
+    public Map<String, Integer> getEmployeeStatistic() {
         return jobStatisticMap;
+    }
+
+    /**
+     * Method which puts value from field in the map
+     */
+    @Override
+    public void putValueInMap(String fieldValue) {
+        String[] jobs = fieldValue.split(",");
+        for (String job : jobs) {
+            if (!jobStatisticMap.containsKey(job)) {
+                jobStatisticMap.put(job, 1);
+            } else {
+                jobStatisticMap.put(job, jobStatisticMap.get(job) + 1);
+            }
+        }
     }
 
     //Singleton implementation
@@ -57,6 +58,6 @@ public class JobStatisticCounter implements StatisticCounter {
      */
     @Override
     public void cleanMap(){
-        jobStatisticMap = new HashMap<>();
+        jobStatisticMap = new TreeMap<>();
     }
 }

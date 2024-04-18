@@ -1,14 +1,19 @@
 package services.counters;
 
-import lombok.extern.log4j.Log4j;
+import entities.Employee;
 import services.counters.impl.CompanyStatisticCounter;
 import services.counters.impl.JobStatisticCounter;
 import services.counters.impl.NameStatisticCounter;
 
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
 /**
  * Class, that can use the statistic counting algorithms and managing different counting strategies.
  */
-@Log4j
 public class StatisticCounterContext {
     private StatisticCounter statisticCounter;
 
@@ -25,15 +30,39 @@ public class StatisticCounterContext {
      * Method for choosing of count strategy
      */
     public void setStatisticCounter(String counterName) {
-        if (counterName.equals("jobs")) {
-            statisticCounter = JobStatisticCounter.getInstance();
-        } else if (counterName.equals("name")) {
-            statisticCounter = NameStatisticCounter.getInstance();
-        } else if (counterName.equals("company")) {
-            statisticCounter = CompanyStatisticCounter.getInstance();
-        } else {
-            log.warn("No such counting strategy found! Program will read statistic by jobs as default");
+        switch (counterName) {
+            case "jobs" -> statisticCounter = JobStatisticCounter.getInstance();
+            case "name" -> statisticCounter = NameStatisticCounter.getInstance();
+            case "companyName" -> statisticCounter = CompanyStatisticCounter.getInstance();
+            default -> statisticCounter = getDefaultStatisticCounter();
         }
+    }
+
+    private StatisticCounter getDefaultStatisticCounter() {
+        return new StatisticCounter() {
+            private Map<String, Integer> statisticMap = new TreeMap<>();
+
+
+            @Override
+            public Map<String, Integer> getEmployeeStatistic() {
+                return statisticMap;
+            }
+
+            @Override
+            public void putValueInMap(String fieldValue) {
+                if (!statisticMap.containsKey(fieldValue)) {
+                    statisticMap.put(fieldValue, 1);
+                } else {
+                    statisticMap.put(fieldValue, statisticMap.get(fieldValue) + 1);
+                }
+
+            }
+
+            @Override
+            public void cleanMap() {
+                statisticMap = new HashMap<>();
+            }
+        };
     }
 
     //Singleton implementation
