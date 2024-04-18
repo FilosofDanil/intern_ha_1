@@ -53,6 +53,7 @@ Entities:
 
 <li>
 Project Structure:
+![](img/structure.jpg)
 </li>
 
 </ol>
